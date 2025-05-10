@@ -1,0 +1,14 @@
+gsutil mb gs://rahool-bucket12/
+
+
+gsutil cp C:\Users\DELL\Documents\P1_Datasets\*.csv  gs://rahool-bucket12/transaction_data/
+
+gsutil cp C:\Users\DELL\Downloads\generate_transaction_data.py gs://rahool-bucket12/scripts/
+
+gcloud dataproc clusters create training-cluster1 --region=us-central1 --zone=us-central1-a --single-node --master-machine-type=n1-standard-2 --image-version=2.0-debian10
+
+
+gcloud dataproc jobs submit pyspark gs://rahool-bucket12/scripts/generate_transaction_data.py --cluster=training-cluster1 --region=us-central1
+
+
+gsutil retention temp release gs://dataproc-temp-us-central1-336797031466-dlgz5a0m/ac47ec45-e2b0-4373-a307-bc2f495e1e17/spark-job-history/
